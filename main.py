@@ -234,10 +234,14 @@ def delete_post(post_id):
 @login_required
 def del_comment(comm_id):
     comment_to_del= Comment.query.get(comm_id)
+    print(comment_to_del.text)
+    print(current_user.id)
+    print(comment_to_del.commented_user)
     if current_user.id == comment_to_del.commented_user.id or current_user.id==1:
+        post_id=comment_to_del.commented_post.id
         db.session.delete(comment_to_del)
         db.session.commit()
-        return redirect(url_for("show_post", post_id=comment_to_del.commented_post.id))
+        return redirect(url_for("show_post", post_id=post_id))
     else:
         flash("You don't have the right to do this!")
         return redirect(url_for("show_post", post_id=comment_to_del.commented_post.id))

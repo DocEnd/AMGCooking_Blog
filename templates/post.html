@@ -19,6 +19,14 @@
     </div>
   </header>
 
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<p style="text-align:center; color:red">{{ message }}</p>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
   <!-- Post Content -->
   <article>
     <div class="container">
@@ -52,7 +60,7 @@
                   <p>{{comment.text | safe }}</p>
                   <span class="date sub-text">commented by: {{comment.commented_user.user_name}}
                     {% if current_user.id == comment.commented_user.id or current_user.id == 1: %}
-                    <a href="{{url_for('del_comment', comm_id=comment.commented_post.id)}}">DEL</a>
+                    <a href="{{url_for('del_comment', comm_id=comment.id)}}">DEL</a>
                     {% endif %}
                   </span>
                 </div>
